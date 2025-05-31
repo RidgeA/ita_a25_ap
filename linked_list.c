@@ -33,10 +33,11 @@ typedef struct
  *     // обробка помилки
  * }
  */
-linked_list* create_list()
+linked_list *create_list()
 {
-    linked_list* list = calloc(0, sizeof(linked_list));
-    if (list==NULL){
+    linked_list *list = calloc(0, sizeof(linked_list));
+    if (list == NULL)
+    {
         return NULL;
     }
     return list;
@@ -63,8 +64,16 @@ linked_list* create_list()
  * insert(list, 5, 0);     // 5 -> 10 -> 25 -> 20 -> 30
  * insert(list, 40, 999);  // додасть в кінець: 5 -> 10 -> 25 -> 20 -> 30 -> 40
  */
-void insert(linked_list *list, int value, int index)
+void insert(linked_list *list, int data, int index)
 {
+    node *new_node = calloc(0, sizeof(node));
+
+    if (new_node == NULL)
+    {
+        return;
+    }
+    new_node->data = data;
+    list-> head = new_node;
 }
 
 /*
@@ -120,6 +129,11 @@ void print_list(linked_list *list)
  */
 void free_list(linked_list *list)
 {
+    if (list == NULL)
+    {
+        return;
+    }
+    free(list);
 }
 
 /*
