@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 // Структура що описує окремий вузол зв'язаного списку
-typedef struct
+typedef struct node
 {
     // Дані, що зберігаються у зв'язному списку
     int data;
@@ -35,7 +35,7 @@ typedef struct
  */
 linked_list *create_list()
 {
-    linked_list *list = calloc(0, sizeof(linked_list));
+    linked_list *list = calloc(1, sizeof(linked_list));
     if (list == NULL)
     {
         return NULL;
@@ -66,14 +66,23 @@ linked_list *create_list()
  */
 void insert(linked_list *list, int data, int index)
 {
-    node *new_node = calloc(0, sizeof(node));
-
+    node *new_node = calloc(1, sizeof(node));
     if (new_node == NULL)
     {
         return;
     }
     new_node->data = data;
-    list-> head = new_node;
+
+    if (list->head==NULL){
+        list->head=new_node;
+        return;
+    }
+    node* current = list->head;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    } 
+    current->next = new_node;
 }
 
 /*
@@ -119,6 +128,15 @@ bool search(linked_list *list, int value, int *index)
  */
 void print_list(linked_list *list)
 {
+    if (list == NULL || list->head == NULL)
+    {
+        printf("NULL\n");
+        return;
+    }
+
+    printf("%d", list->head->data);
+
+    printf("\n");
 }
 
 /*
@@ -143,10 +161,10 @@ int main()
 {
     linked_list *list = create_list();
 
-    insert(list, 0, 0);
-    // insert(list, 1, 0);
-    // insert(list, 2, 0);
-    // insert(list, 3, 0);
+    // insert(list, 42, 0);
+    insert(list, 1, 0);
+    insert(list, 2, 0);
+    insert(list, 3, 0);
     // insert(list, 4, 0);
     // insert(list, 5, 2);
     // insert(list, 6, 999);

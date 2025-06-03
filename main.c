@@ -29,7 +29,7 @@ int main(void) {
     printf("float %.10f, &a - %p, c - %p\n", *c, &a, c);
     *c = 1.0;
     printf("float %.10f, &a - %p, c - %p, a - %d\n", *c, &a, c, a);
-
+    
 
     // int array[5];
     int array[] = {1, 1, 2, 3, 5};
