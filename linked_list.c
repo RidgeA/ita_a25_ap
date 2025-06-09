@@ -49,11 +49,11 @@ linked_list *create_list()
  * Параметри:
  * list: вказівник на список
  * value: значення що додається до списку
- * index: позиція для вставки (0-based)
+ * position: позиція для вставки (0-based)
  *
  * Особливості:
- * - Якщо index <= 0, додає на початок
- * - Якщо index >= розмір списку, додає в кінець
+ * - Якщо position <= 0, додає на початок
+ * - Якщо position >= розмір списку, додає в кінець
  *
  * Приклад:
  * // list: null
@@ -64,7 +64,7 @@ linked_list *create_list()
  * insert(list, 5, 0);     // 5 -> 10 -> 25 -> 20 -> 30
  * insert(list, 40, 999);  // додасть в кінець: 5 -> 10 -> 25 -> 20 -> 30 -> 40
  */
-void insert(linked_list *list, int data, int index)
+void insert(linked_list *list, int data, int position)
 {
     node *new_node = calloc(1, sizeof(node));
     if (new_node == NULL)
@@ -73,15 +73,19 @@ void insert(linked_list *list, int data, int index)
     }
     new_node->data = data;
 
-    if (list->head==NULL){
-        list->head=new_node;
+    if (list->head == NULL)
+    {
+        list->head = new_node;
         return;
     }
-    node* current = list->head;
+
+    node *current = list->head;
+    int temp = 0;
     while (current->next != NULL)
     {
+        temp++;
         current = current->next;
-    } 
+    }
     current->next = new_node;
 }
 
@@ -128,15 +132,20 @@ bool search(linked_list *list, int value, int *index)
  */
 void print_list(linked_list *list)
 {
-    if (list == NULL || list->head == NULL)
+    if (list == NULL)
     {
         printf("NULL\n");
         return;
     }
+    node *current = list->head;
+    while (current != NULL)
+    {
 
-    printf("%d", list->head->data);
+        printf("%d->", current->data);
+        current = current->next;
+    }
 
-    printf("\n");
+    printf("NULL\n");
 }
 
 /*
@@ -147,10 +156,23 @@ void print_list(linked_list *list)
  */
 void free_list(linked_list *list)
 {
+
     if (list == NULL)
     {
         return;
     }
+    node *current = list->head;
+    while (current != NULL)
+    {
+        // Wrong:
+        // free(current);
+        // current = current->next;
+
+        node *temp = current;
+        current = current->next;
+        free(temp);
+    }
+
     free(list);
 }
 
