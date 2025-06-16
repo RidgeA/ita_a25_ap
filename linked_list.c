@@ -73,19 +73,22 @@ void insert(linked_list *list, int data, int position)
     }
     new_node->data = data;
 
-    if (list->head == NULL)
-    {
+    if (list->head == NULL || position==0)
+    { 
+        new_node->next = list->head;
         list->head = new_node;
         return;
     }
 
     node *current = list->head;
-    int temp = 0;
-    while (current->next != NULL)
+    int temp = 1;
+    while (current->next != NULL && temp != position)
     {
         temp++;
         current = current->next;
     }
+
+    new_node->next = current->next;
     current->next = new_node;
 }
 
@@ -94,15 +97,29 @@ void insert(linked_list *list, int data, int position)
  *
  * Параметри:
  * list: вказівник на список
- * index: позиція елемента для видалення (0-based)
+ * position: позиція елемента для видалення (0-based)
  *
  * Приклад:
  * // list: 10 -> 20 -> 30 -> 40
  * delete(list, 1);  // 10 -> 30 -> 40
  * delete(list, 0);  // 30 -> 40
  */
-void delete(linked_list *list, int index)
-{
+void delete(linked_list *list, int position)
+{   node*current=list->head;
+    int temp;
+    while (current->next != NULL && temp!=position-1)
+    {
+        temp++;
+        current = current->next;
+
+    
+        /* code */
+    }
+    if (temp!=position-1){
+        return;
+    }
+    
+
 }
 
 /*
@@ -184,16 +201,23 @@ int main()
     linked_list *list = create_list();
 
     // insert(list, 42, 0);
-    insert(list, 1, 0);
-    insert(list, 2, 0);
-    insert(list, 3, 0);
+    insert(list, 10, 88);
+    print_list(list);
+    insert(list, 20, 88);
+    print_list(list);
+    insert(list, 30, 88);
+    print_list(list);
+    insert(list, 15, 1);
+    print_list(list);
+    insert(list, 5, 0);    
+    print_list(list);
+    free_list(list);
+    
     // insert(list, 4, 0);
     // insert(list, 5, 2);
     // insert(list, 6, 999);
     // delete(list, 6);
     // delete(list, 1);
     // delete(list, 0);
-    print_list(list);
-    free_list(list);
     return 0;
 }
