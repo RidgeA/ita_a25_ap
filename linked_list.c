@@ -101,25 +101,26 @@ void insert(linked_list *list, int data, int position)
  *
  * Приклад:
  * // list: 10 -> 20 -> 30 -> 40
- * delete(list, 1);  // 10 -> 30 -> 40
- * delete(list, 0);  // 30 -> 40
+ * del(list, 1);  // 10 -> 30 -> 40
+ * del(list, 0);  // 30 -> 40
  */
-void delete(linked_list *list, int position)
+void del(linked_list *list, int position)
 {   node*current=list->head;
-    int temp;
-    while (current->next != NULL && temp!=position-1)
+    int temp = 0;
+
+    while (current->next != NULL && temp != position-1)
     {
+        printf("temp - %d position - %d\n", temp, position);
         temp++;
         current = current->next;
-
-    
-        /* code */
     }
     if (temp!=position-1){
         return;
     }
-    
 
+    node *toDelete = current->next;
+    current->next = current->next->next;
+    free(toDelete);
 }
 
 /*
@@ -211,6 +212,16 @@ int main()
     print_list(list);
     insert(list, 5, 0);    
     print_list(list);
+
+    del(list, 1);
+    print_list(list);
+
+    del(list, 0);
+    print_list(list);
+    
+    del(list, 100);
+    print_list(list);
+
     free_list(list);
     
     // insert(list, 4, 0);
