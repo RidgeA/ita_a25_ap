@@ -73,8 +73,8 @@ void insert(linked_list *list, int data, int position)
     }
     new_node->data = data;
 
-    if (list->head == NULL || position==0)
-    { 
+    if (list->head == NULL || position == 0)
+    {
         new_node->next = list->head;
         list->head = new_node;
         return;
@@ -105,22 +105,36 @@ void insert(linked_list *list, int data, int position)
  * del(list, 0);  // 30 -> 40
  */
 void del(linked_list *list, int position)
-{   node*current=list->head;
-    int temp = 0;
-
-    while (current->next != NULL && temp != position-1)
+{
+    if (list->head == NULL || position < 0)
     {
-        printf("temp - %d position - %d\n", temp, position);
-        temp++;
-        current = current->next;
-    }
-    if (temp!=position-1){
         return;
     }
 
-    node *toDelete = current->next;
-    current->next = current->next->next;
-    free(toDelete);
+    if (position == 0)
+    {
+        node *previous_head = list->head;
+        list->head = list->head->next;
+        free(previous_head);
+        return;
+    }
+
+    int i = 0;
+    node *current = list->head;
+    while (current != NULL && i < position - 1)
+    {
+        current = current->next;
+        i++;
+    }
+
+    if (current == NULL || current->next == NULL)
+    {
+        return; // Позиція поза межами списку
+    }
+
+    node *deleted_node = current->next;
+    current->next = deleted_node->next;
+    free(deleted_node);
 }
 
 /*
@@ -210,7 +224,7 @@ int main()
     print_list(list);
     insert(list, 15, 1);
     print_list(list);
-    insert(list, 5, 0);    
+    insert(list, 5, 0);
     print_list(list);
 
     del(list, 1);
@@ -218,12 +232,12 @@ int main()
 
     del(list, 0);
     print_list(list);
-    
-    del(list, 100);
+
+    del(list, 5);
     print_list(list);
 
     free_list(list);
-    
+
     // insert(list, 4, 0);
     // insert(list, 5, 2);
     // insert(list, 6, 999);
